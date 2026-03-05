@@ -11,6 +11,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.RegistryObject;
@@ -38,7 +39,7 @@ public class LatexFox extends ChangedEntity implements IEntityInit
 			   ChangedEntities::overworldOnly,
 			   SpawnPlacements.Type.ON_GROUND,
 			   LatexFox::checkEntitySpawnRules,
-			   ChangedEntity::createLatexAttributes
+			   LatexFox::createLatexAttributes
 		);
 	}
 	
@@ -60,6 +61,10 @@ public class LatexFox extends ChangedEntity implements IEntityInit
 			   .cameraZOffset(0.0f)
 			   .sound(ChangedSounds.TRANSFUR_BY_LATEX.getId())
 			   .build();
+	}
+	
+	public static AttributeSupplier.Builder createLatexAttributes() {
+		return ChangedEntity.createLatexAttributes();
 	}
 	
 	public LatexFox(EntityType<? extends ChangedEntity> type, Level level) { super(type, level); }

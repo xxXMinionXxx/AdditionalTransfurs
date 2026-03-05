@@ -3,15 +3,19 @@ package net.brown_bakers.bakers_transfurs.init;
 import com.mojang.datafixers.util.Pair;
 import net.brown_bakers.bakers_transfurs.BakersTransfurs;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -20,6 +24,7 @@ import static net.brown_bakers.bakers_transfurs.init.InitEntities.DIMENSION_REST
 import static net.brown_bakers.bakers_transfurs.init.InitEntities.INIT_ATTRIBS;
 import static net.brown_bakers.bakers_transfurs.init.InitItems.ITEM_REGISTRY;
 import static net.brown_bakers.bakers_transfurs.init.InitItems.SPAWN_EGGS;
+import static net.brown_bakers.bakers_transfurs.init.InitRenderers.copyPlayerLayers;
 
 public class InitUtils
 {
@@ -37,5 +42,15 @@ public class InitUtils
 			DIMENSION_RESTRICTIONS.put(entityType, dimension);
 		}
 		return entityType;
+	}
+	
+
+	
+	@Deprecated(forRemoval = true)
+	public static <T extends ChangedEntity> void registerHumanoid(EntityRenderersEvent.RegisterRenderers event, EntityType<? extends T> entityType, EntityRendererProvider<T> entityRendererProvider) {
+		
+		copyPlayerLayers.add(entityType);
+		event.registerEntityRenderer(entityType, entityRendererProvider);
+		
 	}
 }
