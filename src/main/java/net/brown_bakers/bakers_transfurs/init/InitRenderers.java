@@ -13,7 +13,8 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.brown_bakers.bakers_transfurs.init.InitUtils.registerHumanoid;
+import static net.ltxprogrammer.changed.init.ChangedEntityRenderers.registerHumanoid;
+
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class InitRenderers {
