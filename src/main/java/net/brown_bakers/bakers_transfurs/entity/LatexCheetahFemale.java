@@ -23,7 +23,7 @@ public class LatexCheetahFemale extends AbstractLatexCheetah {
 	
 	public static RegistryObject<EntityType<LatexCheetahFemale>> getEntityInitRObject() {
 		return InitUtils.getEntityInitRObject(
-			   "latex_cheetah/female",
+			   "latex_cheetah_female",
 			   0xf2d882,
 			   0xd1b24f,
 			   LatexCheetahFemale.getEntityInitBuilder(),

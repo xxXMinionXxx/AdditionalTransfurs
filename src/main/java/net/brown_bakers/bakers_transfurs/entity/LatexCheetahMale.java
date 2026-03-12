@@ -25,7 +25,7 @@ public class LatexCheetahMale extends AbstractLatexCheetah implements GenderedEn
 	
 	public static RegistryObject<EntityType<LatexCheetahMale>> getEntityInitRObject() {
 		return InitUtils.getEntityInitRObject(
-			   "latex_cheetah/male",
+			   "latex_cheetah_male",
 			   0xf2d882,
 			   0xd1b24f,
 			   LatexCheetahMale.getEntityInitBuilder(),
