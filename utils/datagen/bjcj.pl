@@ -53,7 +53,7 @@ my $ANIMATOR_INIT = "		animator = HumanoidAnimator.of(this).hipOffset(-1.5f)
 			   .addPreset(AnimatorPresets./*PERL_ANIMATOR_PRESET*/Like(
 					 Head, Head.getChild(\"LeftEar\"), Head.getChild(\"RightEar\"),
 					 Torso, LeftArm, RightArm,
-					 Tail, List.of(this.TailPrimary, TailSecondary, TailTertiary),
+					 Tail, List.of(/*PERL_TAIL_PARTS_ARRAY*/),
 					 LeftLeg, LeftLowerLeg, LeftFoot, LeftFoot.getChild(\"LeftPad\"), RightLeg, RightLowerLeg, RightFoot, RightFoot.getChild(\"RightPad\")));
 
 ";
@@ -63,6 +63,7 @@ my $name_capitalized ;
 my $name_lowercase;
 my $output_file_name = '';
 my $preset = '';
+my @tail_parts = ();
 
 getlopt(@ARGV);
 
@@ -91,7 +92,8 @@ my $doneExtend = 0;
 my $inModelParts = 0;
 my $inConstruct = 0;
 
-for( my $i = 1; $i<scalar(@mapped_file); $i++) {
+
+for( my $i = 1; $i<scalar(@mapped_file); $i++) {# {{{
 
 	if ( $doneExtend == 0 && $mapped_file[$i] =~ /public class/ ) {
 		$mapped_file[$i] =~ s/<T extends Entity> extends EntityModel<T>/$EXTEND/;
@@ -102,8 +104,7 @@ for( my $i = 1; $i<scalar(@mapped_file); $i++) {
 	}
 
 	$mapped_file[$i] =~ s/new ResourceLocation\("modid", "[a-z]+"\),/BakersTransfurs.modResource\("entity\/$name_lowercase"\),/;
-
-	if ( $inModelParts == 0 && $mapped_file[$i] =~ /private final ModelPart/ ) {
+	if ( $inModelParts == 0 && $mapped_file[$i] =~ /private final ModelPart (.+);/ ) {
 		$inModelParts = 1;
 		next;
 	}
@@ -111,6 +112,11 @@ for( my $i = 1; $i<scalar(@mapped_file); $i++) {
 	if ( $inModelParts == 1 ) {
 		splice(@mapped_file, $i, 0, $DECLARATIONS);
 		$inModelParts = -1;
+		next;
+	}
+
+	if ( $mapped_file[$i] =~ /private final ModelPart (Tail[a-zA-Z]+);/ ) {
+		push(@tail_parts, $1);
 		next;
 	}
 
@@ -133,12 +139,15 @@ for( my $i = 1; $i<scalar(@mapped_file); $i++) {
 		splice(@mapped_file, $i, 4, () );
 		next;
 	}
-}	
+}	# }}}
+
+my $tail_parts_serialized = serializeArray(@tail_parts);
 
 foreach (@mapped_file) {
 	$_ =~ s/\/\*PERL_CAPITALIZED_NAME\*\//$name_capitalized/g;
 	$_ =~ s/\/\*PERL_NAME_LOWERCASE\*\//$name_lowercase/g;
-	$_ =~ s/\/\*PERL_ANIMATOR_PRESET\*\//$preset/g
+	$_ =~ s/\/\*PERL_ANIMATOR_PRESET\*\//$preset/;
+	$_ =~ s/\/\*PERL_TAIL_PARTS_ARRAY\*\//$tail_parts_serialized/;
 }
 
 print @mapped_file;
@@ -169,3 +178,13 @@ sub getlopt {# {{{
 	}
 	if( $eval != 0 || $input_file_name eq '' || $preset eq '' ) { die 'Insufficient arguments. Aborted.';}
 }# }}}
+
+sub serializeArray {
+	return "" if scalar(@_) == 0;
+
+	my $ret = $_[0];
+	for (my $i = 1; $i < scalar(@_); $i++ ) {
+		$ret = $ret . ", " . $_[$i];
+	}
+	return($ret);
+}
