@@ -1,169 +1,169 @@
-#Every line starting with a '#' is treated as a comment, and replaced with '\n' before evaluation.
-#Options specified are read from top to bottom, so bottom entries override top ones.
-#WARNING: Depending on the setting, trailing whitespace might break the generator.
-#Commenting out options will set them to default values, i.e. This file overrides a preset file, which overrides default values defined inside the compiler.
+;Every line starting with a ';' is treated as a comment, and ignored.
+;Options specified are read from top to bottom, so bottom entries override top ones.
+;WARNING: Depending on the setting, trailing whitespace might break the generator.
+;Commenting out options will set them to default values, i.e. This file overrides a preset file, which overrides default values defined inside the compiler.
 
-#Specifies the .java template to use.
-#TEMPLATE=
+;Specifies the .java template to use.
+;TEMPLATE=
 
-#Specifies a stat preset for a transfur.
-#Valid values are the same as file titles inside ./utils/transfur-generator/presets.
-#Warning: If a preset sets for example: 'BREATH=WEAK', then writing 'BREATH=NORMAL' will override it to vanilla.
+;Specifies a stat preset for a transfur.
+;Valid values are the same as file titles inside ./utils/transfur-generator/presets.
+;Warning: If a preset sets for example: 'BREATH=WEAK', then writing 'BREATH=NORMAL' will override it to vanilla.
 PRESETS=[
 CAT
 LATEX
 ]
 
 
-#Attribute overrides.
-#format is CLASSPATH:ARGUMENT
-#CLASSPATH.setBaseValue(ARGUMENT) instance method is called
-#This is so this generator can handle custom attributes and calls to methods from within the argument.
-#WARNING: THIS PART IS NOT FULLY COMPILE CHECKED.
-#THE COMPILER HAS NO IDEA IF THE CLASS PATH YOU GIVE HERE IS VALID.
+;Attribute overrides.
+;format is CLASSPATH:ARGUMENT
+;CLASSPATH.setBaseValue(ARGUMENT) instance method is called
+;This is so this generator can handle custom attributes and calls to methods from within the argument.
+;WARNING: THIS PART IS NOT FULLY COMPILE CHECKED.
+;THE COMPILER HAS NO IDEA IF THE CLASS PATH YOU GIVE HERE IS VALID.
 ATTRIBUTES=[
 net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH:24
 ]
 
-#Sound the transfur makes when transfurred. Default is ''.
-#Can be both resource location and getId() method path.
-#Resource path must be quoted with ""
+;Sound the transfur makes when transfurred. Default is ''.
+;Can be both resource location and getId() method path.
+;Resource path must be quoted with ""
 TRANSFUR_SOUND=net.ltxprogrammer.changed.init.ChangedSounds.TRANSFUR_BY_NOT_LATEX.getId()
 
-#Default mode for transfur mode.
-#Valid values are ABSORBING, REPLICATING, NONE
+;Default mode for transfur mode.
+;Valid values are ABSORBING, REPLICATING, NONE
 TRANSFUR_MODE=ABSORBING
 
-#Overrides mining speed.
-#Valid values are WEAK, NORMAL, STRONG. Blank resolves to NORMAL
+;Overrides mining speed.
+;Valid values are WEAK, NORMAL, STRONG. Blank resolves to NORMAL
 MINING=NORMAL
 
-#UNUSED Overrides the amount of legs a transfur has. This affects armor type it can use.
-#Valid values are 0, 2, 4 and '', which evaluates to 2.
-#LEGS=2
+;UNUSED Overrides the amount of legs a transfur has. This affects armor type it can use.
+;Valid values are 0, 2, 4 and '', which evaluates to 2.
+;LEGS=2
 
-#Overrides entity shape.
-#Valid values are ANTHRO, FERAL, TAUR, NAGA, MER. '' means ANTHRO
+;Overrides entity shape.
+;Valid values are ANTHRO, FERAL, TAUR, NAGA, MER. '' means ANTHRO
 ENTITY_SHAPE=ANTHRO
 
-#Use item mode
-#Valid values: NORMAL, MOUTH, NONE
+;Use item mode
+;Valid values: NORMAL, MOUTH, NONE
 USE_ITEM_MODE=NORMAL
 
-#Overrides if the variant can fly
-#Valid values are '', NONE, CT, ELYTRA, BOTH.
-#Warning: CT and ELYTRA are unused.
+;Overrides if the variant can fly
+;Valid values are '', NONE, CT, ELYTRA, BOTH.
+;Warning: CT and ELYTRA are unused.
 FLY=NONE
 
-#Overrides the amount of jump charges the variant has. Set to '' or 0 for none.
+;Overrides the amount of jump charges the variant has. Set to '' or 0 for none.
 JUMPS=4
 
-#Overrides default vision type.
-#Valid values are NORMAL, NIGHT_VISION, BLIND, REDUCED, WAVE_VISION
-#'' resolves to NORMAL
+;Overrides default vision type.
+;Valid values are NORMAL, NIGHT_VISION, BLIND, REDUCED, WAVE_VISION
+;'' resolves to NORMAL
 VISION=NORMAL
 
-#Overrides if variant can climb.
+;Overrides if variant can climb.
 CLIMB=false
 
-#Overrides camera z-offest. Vanilla is 0.0. Taurs have 0.4375
+;Overrides camera z-offest. Vanilla is 0.0. Taurs have 0.4375
 Z_OFFSET=0.0
 
-#This will tell the compiler to generate a second variant with opposite gender
-#Warning: If you want different stats for the same transfur depending on gender (manta rays)
-#you should use 2 separate templates.
+;This will tell the compiler to generate a second variant with opposite gender
+;Warning: If you want different stats for the same transfur depending on gender (manta rays)
+;you should use 2 separate templates.
 GENDERED=false
 
-#Overrides how long it takes for the variant to freeze, in ticks. Vanilla is 140
+;Overrides how long it takes for the variant to freeze, in ticks. Vanilla is 140
 TICKS_TO_FREEZE=240
 
-#Overrides if the variant has aqua affinity.
+;Overrides if the variant has aqua affinity.
 AQUA_AFFINITY=false
 
-#Overrides if the variant ca walk on powder snow
+;Overrides if the variant ca walk on powder snow
 POWDER_SNOW_WALKABLE=false
 
-#Overrides variant breathing mode
-#Valid values are AIR, WATER, ANY, NONE.
+;Overrides variant breathing mode
+;Valid values are AIR, WATER, ANY, NONE.
 BREATH=AIR
 
-#Overrides latex type
-#Accepts class field paths
-#TODO
+;Overrides latex type
+;Accepts class field paths
+;TODO
 
-#Overrides color on transfur.
-#Accepts integers.
-#Defaults to 0xf0f0f0
+;Overrides color on transfur.
+;Accepts integers.
+;Defaults to 0xf0f0f0
 TRANSFUR_COLORS=0xffffff
 
-#Overrides ability colors. Accepts hex values only 
+;Overrides ability colors. Accepts hex values only 
 ABILITY_COLOR_1ST=0xff0000
 ABILITY_COLOR_2ND=0xffff00
 
-#Abilities
-#WARNING: Adding 2 abilities with the exact same ID will cause a compile error.
-#Warning: Arrays, unlike variables, are additive, and you need to call CLEAR_<ARRAY-NAME>() to reset them. You must do it before first use of an array inside of a file, otherwise it becomes dead code.
+;Abilities
+;WARNING: Adding 2 abilities with the exact same ID will cause a compile error.
+;Warning: Arrays, unlike variables, are additive, and you need to call CLEAR_<ARRAY-NAME>() to reset them. You must do it before first use of an array inside of a file, otherwise it becomes dead code.
 ABILITIES=[
 net.ltxprogrammer.changed.ChangedAbilities.SWITCH_TRANSFUR_MODE
 net.ltxprogrammer.changed.ChangedAbilities.GRAB_ENTITY_ABILITY
 net.ltxprogrammer.changed.ChangedAbilities.TOGGLE_NIGHT_VISION
 ]
 
-#Specifies what class should be extended. Accepts classpaths. Defaults to ChangedEntity.
-#EXTEND=
+;Specifies what class should be extended. Accepts classpaths. Defaults to ChangedEntity.
+;EXTEND=
 
-#Force a function call to clear preset arrays.
-#This might be useful if you want to use a cat preset, without making creepers run away.
-#CLEAR_ABILITIES()
-#CLEAR_SCARES()
+;Force a function call to clear preset arrays.
+;This might be useful if you want to use a cat preset, without making creepers run away.
+;CLEAR_ABILITIES()
+;CLEAR_SCARES()
 
-#What mobs does the entity scare? Accepts path to a class.
-#Redundant entries generate a compile error.
+;What mobs does the entity scare? Accepts path to a class.
+;Redundant entries generate a compile error.
 SCARES=[
 net.minecraft.world.entity.monster.Creeper
 ]
 
 
-#Dimensions where the entity can spawn. Accepts classpaths.
+;Dimensions where the entity can spawn. Accepts classpaths.
 SPAWN_DIMENSIONS=[
 net.minecraft.world.level.Level.OVERWORLD
 ]
 
-#Tag template to use when checking spawn biomes.
+;Tag template to use when checking spawn biomes.
 BIOMES=
 
-#Pack spawns
+;Pack spawns
 MIN_SPAWN=1
 MAX_SPAWN=3
 SPAWN_WEIGHT=5
 
-#ENTITY SPAWN RULES ARE DEFINED INSIDE A TEMPLATE FILE OR BY USING INHERITENCE
+;ENTITY SPAWN RULES ARE DEFINED INSIDE A TEMPLATE FILE OR BY USING INHERITENCE
 
-#Renderer type. Accepted values: PARTIAL_TF, HUMANOID
+;Renderer type. Accepted values: PARTIAL_TF, HUMANOID
 RENDERER_TYPE=HUMANOID
 
-#Entity Armor Type. Accepts Classpaths
+;Entity Armor Type. Accepts Classpaths
 ARMOR_TYPE=net.ltxprogrammer.changed.client.renderer.model.armor.ArmorLatexMaleCatModel
 
-#if the model has iris. Default: true
+;if the model has iris. Default: true
 IRIS_PRESENT=true
 
-#Fixed iris colors.
-#IRIS_1ST_COLOR=
-#IRIS_2ND_COLOR=
-#SCLERA_COLOR=
+;Fixed iris colors.
+;IRIS_1ST_COLOR=
+;IRIS_2ND_COLOR=
+;SCLERA_COLOR=
 
-#gas mask layer function
+;gas mask layer function
 GAS_MASK_LAYER=net.ltxprogrammer.changed.client.renderer.layers.GasMaskLayer.forSnouted
 
-#If the model has an emmisive layer
+;If the model has an emmisive layer
 EMISSIVE_LAYER=true
 
-#Model AnimatorPreset
-#THIS WILL LIKELY CHANGE DUE TO CHANGES IN BJCJ CONVERTER
+;Model AnimatorPreset
+;THIS WILL LIKELY CHANGE DUE TO CHANGES IN BJCJ CONVERTER
 ANIM_PRESET=cat
 
-#Model Scale. Accepts floats
+;Model Scale. Accepts floats
 MODEL_SCALE=1.0;
 
 
@@ -171,20 +171,20 @@ MODEL_SCALE=1.0;
 
 
 
-#Additional builder parameters
-#net.minecraft.world.entity.EntityType.Builder argument, REQUIRED. Not checked at compile time. Defines entity size and other stuff.
-#valid options:
-#classpath
-#/*PERL_DEFAULT_CHANGED_BUILDER*/
-#/*PERL_CENTAUR_CHANGED_BUILDER*/
-#/*PERL_SHARK_CHANGED_BUILDER*/
-#/*PERL_BUFFSHARK_CHANGED_BUILDER*/
-#/*PERL_CROCODILE_CHANGED_BUILDER*/
-#/*PERL_SQUOG_CHANGED_BUILDER*/
-#/*PERL_MERMAID_CHANGED_BUILDER*/
-#/*PERL_SNAKE_CHANGED_BUILDER*/
-#/*PERL_ORGANIC_CHANGED_BUILDER*/
-#/*PERL_HUMAN_CHANGED_BUILDER*/
-#/*PERL_PUP_CHANGED_BUILDER*/
-#/*PERL_PUDDING_CHANGED_BUILDER*/
+;Additional builder parameters
+;net.minecraft.world.entity.EntityType.Builder argument, REQUIRED. Not checked at compile time. Defines entity size and other stuff.
+;valid options:
+;classpath
+;/*PERL_DEFAULT_CHANGED_BUILDER*/
+;/*PERL_CENTAUR_CHANGED_BUILDER*/
+;/*PERL_SHARK_CHANGED_BUILDER*/
+;/*PERL_BUFFSHARK_CHANGED_BUILDER*/
+;/*PERL_CROCODILE_CHANGED_BUILDER*/
+;/*PERL_SQUOG_CHANGED_BUILDER*/
+;/*PERL_MERMAID_CHANGED_BUILDER*/
+;/*PERL_SNAKE_CHANGED_BUILDER*/
+;/*PERL_ORGANIC_CHANGED_BUILDER*/
+;/*PERL_HUMAN_CHANGED_BUILDER*/
+;/*PERL_PUP_CHANGED_BUILDER*/
+;/*PERL_PUDDING_CHANGED_BUILDER*/
 BUILDER=net.minecraft.world.entity.EntityType.Builder.of(net.ltxprogrammer.changed.entity.beast.CrystalWolf::new, net.minecraft.world.entity.MobCategory.CREATURE).clientTrackingRange(10).sized(0.7F, 1.93F)

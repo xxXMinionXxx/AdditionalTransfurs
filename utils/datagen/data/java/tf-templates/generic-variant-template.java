@@ -1,0 +1,91 @@
+package net.kjentytek303.additional_transfurs.entity;
+
+import net.kjentytek303.additional_transfurs.init.IEntityInit;
+import net.kjentytek303.additional_transfurs.init.InitUtils;
+import net.ltxprogrammer.changed.entity.*;
+import net.ltxprogrammer.changed.entity.latex.LatexType;
+import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
+import net.ltxprogrammer.changed.init.*;
+
+import net.ltxprogrammer.changed.util.Color3;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.registries.RegistryObject;
+
+
+import net.kjentytek303.additional_transfurs.init.InitEntities;
+
+
+public class PERL_ENTITY_NAME extends PERL_EXTENDS /*PERL_IMPLEMENTS*/
+{
+
+	/*PERL_ABSTRACT_DELETE_BEGIN*/
+	public static EntityType.Builder<PERL_ENTITY_NAME> getEntityInitBuilder() {
+		return EntityType.Builder
+			PERL_ENTITY_BUILDER
+			;
+	}
+	
+	public static RegistryObject<EntityType<PERL_ENTITY_NAME>> getEntityInitRObject() {
+		return InitUtils.getEntityInitRObject(
+			   "PERL_LOWERCASE_ENTITY_NAME",
+			   PERL_COLOR_1ST,
+			   PERL_COLOR_2ND,
+			   PERL_ENTITY_NAME.getEntityInitBuilder(),
+			   ChangedEntities::overworldOnly, //TODO TEMPL: Make this extensible 
+			   SpawnPlacements.Type.ON_GROUND, //TODO TEMPL: Make this extensible
+			   PERL_ENTITY_NAME::checkEntitySpawnRules,
+			   ChangedEntity::createLatexAttributes
+		);
+	}
+	
+	public static TransfurVariant<PERL_ENTITY_NAME> getTFInitBuilder()
+	{
+		return TransfurVariant.Builder
+			   .of(PERL_CAPITALIZED_ENTITY_NAME)
+			   /*PERL_BREATHE_MODE*/
+			   /*PERL_FLIGHT*/
+			   /*PERL_EXTRA_JUMPS*/
+			   /*PERL_CAN_CLIMB*/
+			   /*PERL_DEFAULT_VISION_TYPE*/
+			   /*PERL_MINING_STRENGHT*/
+			   /*PERL_ITEM_USE_MODE*/
+			   /*PERL_SCARES*/
+			   /*PERL_DEFAULT_TRANSFUR_MODE*/
+			   /*PERL_ABILITIES*/
+			   /*PERL_CAMERA_Z_OFFSET*/
+			   /*PERL_DEFAULT_TRANSFUR_SOUND*/
+			   .build();
+	}
+	/*PERL_ABSTRACT_DELETE_END*/
+	
+	public PERL_ENTITY_NAME(EntityType<? extends ChangedEntity> type, Level level) { super(type, level); }
+	
+	@Override
+	public TransfurMode getTransfurMode() {
+		return TransfurMode.PERL_TRANSFUR_MODE_OVERRIDE;
+	}
+	
+	/*PERL_LATEX_TYPE_OVERRIDE*/
+	
+	@Override
+	protected void setAttributes (AttributeMap attributes) {
+		super.setAttributes(attributes);
+		/*PERL_ATTRIBUTES*/
+	}
+	
+	/*PERL_TRANSFUR_COLOR*/
+	
+	/*PERL_TICKS_TO_FREEZE*/
+
+	/*PERL_FLYING_SPEED*/
+
+	/*PERL_CLIMBING_OVERRIDE*/
+
+
+}

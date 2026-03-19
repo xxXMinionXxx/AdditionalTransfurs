@@ -11,13 +11,10 @@ my $VERSION = '0.1';
 
 #pre-main {{{
 
-my @files;
-my @prepared_files;
-my $should_crash=0;
 my $errored=0;
-my $force_regen=0;
-getlopt(@ARGV);
-my $argc = scalar(@files);
+my $array_mode=0;
+getsopt(@ARGV);
+
 
 #}}}
 
@@ -26,6 +23,7 @@ my $argc = scalar(@files);
 
 my $template = "./templates/generic.java.template";		#template file
 my $extend = "net.ltxprogrammer.changed.entity.ChangedEntity";	#which class to extend
+my $config = "";
 
 my @presets=();
 my @attributes=();
@@ -52,355 +50,213 @@ my $transfur_color="";
 my $egg_back="";
 my $egg_front="";
 my @spawn_dimensions="net.minecraft.world.level.Level.OVERWORLD";
-my $spawn_template="";
-my $min_spawn=1;
-my $max_spawn=3;
-my $spawn_weight=5;
 
-my $renderer_type="HUMANOID";
-my $armor_type="net.ltxprogrammer.changed.client.renderer.model.armor.ArmorLatexMaleWolfModel";
-my $iris_present=1;
-my $iris_1st_color="";
-my $iris_2nd_color="";
-my $sclera_color="";
-
-my $gas_mask_layer="net.ltxprogrammer.changed.client.renderer.layers.GasMaskLayer.forSnouted";
-my $emmisive=0;
-my $animation_preset=wolf;
-my $model_scale="1.0";
-
-my $builder="net.minecraft.world.entity.EntityType.Builder.of(/*PERL_VARIANT_NAME*/::new, net.minecraft.world.entity.MobCategory.MONSTER).clientTrackingRange(10).sized(0.7, 1.93)";
-
-my $VARIANT_FILE="";		#FILE* to a variant
-
-my @registered_transfurs;
-	
 #}}}
+
+foreach ( <STDIN> ) {
+	loop_begin:
+
+	if( /^;.*/ ) { 
+		next;
+	}
+
+	if ($mode eq 'NORMAL') { #{{{
+
+		if ( /^[A-Z_]+-=\[\h*/ ) { #if array opening {{{
+$mode ='ARRAY';
+			goto loop_begin; #reevaluate as array.
+		} # }}}
+
+		if ( /^TEMPLATE=(.+)/ ) { # {{{
+			if(-f "templates/$1") {
+				$template = $1
+			}
+			else {
+				$errored = 1;
+				print STDERR "Error: Template file $1 not found, in file $_[0]
+$_";
+			}
+
+			next;
+		} #}}}
+
+		if ( $_ =~ /^EXTEND=([a-zA-Z0-9])+\h*/ ) {# {{{
+			$extend = $1;
+			next;
+		}# }}}
+
+		if ( /^TRANSFUR_SOUND=(.+)\h*/ ) {# unsafe {{{
+			$transfur_sound = $1;
+			next;
+		}# }}}
+
+		if ( /^TRANSFUR_MODE=(ABSORBING|REPLICATING|NONE)\h*/ ) { #{{{
+			$transfur_mode = $1;
+			next;
+		} #}}}
+
+		if ( /^MINING=(WEAK|NORMAL|STRONG)\h*/ ) { #{{{
+			$mining_speed=$1;
+			next;
+		} #}}}
+
+		if ( /^ENTITY_SHAPE=(ANTRO|FERAL|TAUR|NAGA|MER)\h*/ ) { #{{{
+			$entity_shape = $1;
+			next;
+		} #}}}
+
+		if ( /^SHOW_HOTBAR=(true|false)\h*/ ) { #{{{
+			$show_hotbar = $1;
+			next;
+		} #}}}
+
+		if ( /^USE_ITEM_MODE=(NORMAL|MOUTH|NONE)\h*/ ) { #{{{
+			$block_breaking = $1;
+			next;
+		} #}}}
+
+		if ( /^FLY=(NONE|CT|ELYTRA|BOTH)\h*/ ) {# {{{
+			$fly = $1;
+			next;
+		}# }}}
+
+		if ( /^JUMPS=(\d+)\h*/ ) {# {{{
+			$jumps = $1;
+			next;
+		}# }}}
+
+		if ( /^VISION=(NORMAL|NIGHT_VISION|BLIND|REDUCED|VAVE_VISION)\h*/ ) {# {{{
+			$vision = $1;
+			next;
+		}# }}}
+
+		if ( /^CLIMB=(true|false)\h*/ ) { #{{{
+			$climb = $1;
+			next;
+		} #}}}
+
+		if ( /^Z_OFFSET=(\d+\.\d+)\h*/ ) {# {{{
+			$z_offset = $1;
+			next;
+		}# }}}
+
+		if ( /^GENDERED=(true|false)\h*/ ) {# {{{
+			$gendered = $1;
+			next;
+		}# }}}
+		
+		if ( /^TICKS_TO_FREEZE=(\d+)\h*/ ) {# {{{
+			$freezing_ticks = $1;
+			next;
+		}# }}}
+
+		if ( /^BREATH=(NORMAL|WATER|BOTH|NONE)\h*/ ) {# {{{
+			$breathing_mode = $1;
+			next;
+		}# }}}
+
+		if ( /^AQUA_AFFINITY=(true|false)\h*/ ){# {{{
+			$aqua_affinity = $1;
+			next;
+		}# }}}
+
+		if ( /^POWDER_SNOW_WALKABLE=(true|false)\h*/ ){# {{{
+			$powder_snow_walkable = $1;
+			next;
+		}# }}}
+
+		if ( /^TRANFUR_COLORS=(0x[0-9a-fA-F]{,6})\h*/ ) {# {{{
+			$transfur_colors = $1;
+			next;
+		}# }}}
+
+		if ( /^ABILITY_COLOR_1ST=(0x[0-9a-fA-F]{,6})\h*/ ) {# {{{
+			$egg_back = $1;
+			next;
+		}# }}}
+
+		if ( /^ABILITY_COLOR_2ND=(0x[0-9a-fA-F]{,6})\h*/ ) {# {{{
+			$egg_front = $1;
+			next;
+		}# }}}
+
+	 #}}}
+
+	if ( $mode eq 'ARRAY' ) { # {{{
+
+		if ( $_ =~ /^]\h*/ ) { #{{{
+			$array = '';
+			$mode = 'NORMAL';
+			next;
+		} # }}}
+
+		if ( $array eq '' ) { # if we drop from normal mode, get option {{{
+			$_ =~ /([A-Z]+)=\[\h*/;
+			$array = $1;
+			next;
+		} #}}}
+
+		if ( $array eq 'PRESETS' ) { #{{{
+			$_ =~ /(.+)\h*/;
+			push( @presets, $1 );
+			next;
+		} #}}}
+
+		if ( $array eq 'ABILITIES' ) { #{{{
+			$_ =~ /(.+)\h*/;
+			push( @abilities, $1 );
+			next;
+		} #}}}
+
+		if ( $array eq 'ATTRIBUTES' ) { #{{{
+			$_ =~ /(.+):(.+)\h*/;
+			$attributes{$1} = $2;
+			next;
+		} #}}}
+
+		if ( $array eq 'SCARES' ) { #{{{
+			$_ =~ /(.+)\h*/;
+			push( @scares, $1 );
+			next;
+		} #}}}
+		
+		if ( $array eq 'SPAWN_DIMENSIONS' ) { #{{{
+			$_ =~ /(.+)\h*/;
+			push( @scares, $1 );
+			next;
+		} #}}}
+		
+
+
+		print "Unknown array definition: \"$array\", field: \"$_\"";
+		$errored = 1;
+		next;
+	} #}}}
+
+	$errored = 1;
+	die "Internal Compiler Error - bad mode: $array";
+}
+
+
 
 #main
 
-#if @files is empty, recompile all entries in ./variants
-if ($argc == 0 || $force_regen == 1)
-{
-	opendir(my $D, './variants') or die "Error: Can't open directory ./variants: $!.
-Compilation aborted\n";
-	@files = readdir($D);
-	closedir($D);
-}
+#feed the generator from STDIN;
+#evaluate CFG
+#print generated variant to STDOUT.
 
 
-foreach (@files) {
-	generateTransfur($_);
-	write_temporary_file();
-	resetValues();
-}
-
-write_registries();
-write_transfurs();
-wipe_tmp();
-
-# functions {{{
-
-sub write_registries { #{{{
-} #}}}
-
-sub write_transfurs { #{{{
-} #}}}
-
-sub generateTransfur { #{{{
-	my $mode = 'NORMAL';
-	my $array = "";
-	open(VARIANT_FILE, "<", $_[0]);
-	foreach(<VARIANT_FILE>) {
-		loop_begin:
-
-		if( /^#.*/ ) { #if comment {{{
-			next;
-		} #}}}
-
-		if ($mode eq 'NORMAL') { #{{{
-
-			if ( /^[A-Z_]+-=\[\h*/ ) { #if array opening {{{
-$mode ='ARRAY';
-				goto loop_begin; #reevaluate as array.
-			} # }}}
-	
-			if ( /^TEMPLATE=(.+)/ ) { # {{{
-				if(-f "templates/$1") {
-					$template = $1
-				}
-				else {
-					$errored = 1;
-					print STDERR "Error: Template file $1 not found, in file $_[0]
-$_";
-				}
-
-				next;
-			} #}}}
-
-			if ( $_ =~ /^EXTEND=([a-zA-Z0-9])+\h*/ ) {# {{{
-				$extend = $1;
-				next;
-			}# }}}
-
-			if ( /^TRANSFUR_SOUND=(.+)\h*/ ) {# unsafe {{{
-				$transfur_sound = $1;
-				next;
-			}# }}}
-	
-			if ( /^TRANSFUR_MODE=(ABSORBING|REPLICATING|NONE)\h*/ ) { #{{{
-				$transfur_mode = $1;
-				next;
-			} #}}}
-	
-			if ( /^MINING=(WEAK|NORMAL|STRONG)\h*/ ) { #{{{
-				$mining_speed=$1;
-				next;
-			} #}}}
-	
-			if ( /^ENTITY_SHAPE=(ANTRO|FERAL|TAUR|NAGA|MER)\h*/ ) { #{{{
-				$entity_shape = $1;
-				next;
-			} #}}}
-	
-			if ( /^SHOW_HOTBAR=(true|false)\h*/ ) { #{{{
-				$show_hotbar = $1;
-				next;
-			} #}}}
-	
-			if ( /^USE_ITEM_MODE=(NORMAL|MOUTH|NONE)\h*/ ) { #{{{
-				$block_breaking = $1;
-				next;
-			} #}}}
-	
-			if ( /^FLY=(NONE|CT|ELYTRA|BOTH)\h*/ ) {# {{{
-				$fly = $1;
-				next;
-			}# }}}
-	
-			if ( /^JUMPS=(\d+)\h*/ ) {# {{{
-				$jumps = $1;
-				next;
-			}# }}}
-	
-			if ( /^VISION=(NORMAL|NIGHT_VISION|BLIND|REDUCED|VAVE_VISION)\h*/ ) {# {{{
-				$vision = $1;
-				next;
-			}# }}}
-	
-			if ( /^CLIMB=(true|false)\h*/ ) { #{{{
-				$climb = $1;
-				next;
-			} #}}}
-	
-			if ( /^Z_OFFSET=(\d+\.\d+)\h*/ ) {# {{{
-				$z_offset = $1;
-				next;
-			}# }}}
-	
-			if ( /^GENDERED=(true|false)\h*/ ) {# {{{
-				$gendered = $1;
-				next;
-			}# }}}
-			
-			if ( /^TICKS_TO_FREEZE=(\d+)\h*/ ) {# {{{
-				$freezing_ticks = $1;
-				next;
-			}# }}}
-	
-			if ( /^BREATH=(NORMAL|WATER|BOTH|NONE)\h*/ ) {# {{{
-				$breathing_mode = $1;
-				next;
-			}# }}}
-	
-			if ( /^AQUA_AFFINITY=(true|false)\h*/ ){# {{{
-				$aqua_affinity = $1;
-				next;
-			}# }}}
-	
-			if ( /^POWDER_SNOW_WALKABLE=(true|false)\h*/ ){# {{{
-				$powder_snow_walkable = $1;
-				next;
-			}# }}}
-	
-			if ( /^TRANFUR_COLORS=(0x[0-9a-fA-F]{,6})\h*/ ) {# {{{
-				$transfur_colors = $1;
-				next;
-			}# }}}
-
-			if ( /^ABILITY_COLOR_1ST=(0x[0-9a-fA-F]{,6})\h*/ ) {# {{{
-				$egg_back = $1;
-				next;
-			}# }}}
-
-			if ( /^ABILITY_COLOR_2ND=(0x[0-9a-fA-F]{,6})\h*/ ) {# {{{
-				$egg_front = $1;
-				next;
-			}# }}}
-
-		if ( $_ =~ /^BIOMES=((^#?[a-z][a-z0-9_]*:[a-z][a-z0-9_\/]*)\h*$ )/ ) {{{{
-			$spawn_template=$1;
-			next;
-		}# }}}
-
-		if ( $_ =~ /^MIN_SPAWN=(\d+)/ ) {# {{{
-			$min_spawn = $1;
-			next;
-		}# }}}
-	
-		if ( $_ =~ /^MAX_SPAWN=(\d+)/ ) {# {{{
-			$max_spawn = $1;
-			next;
-		}# }}}
-
-		if ( $_ =~ /^SPAWN_WEIGHT=(\d+)/ ) {# {{{
-			$spawn_weight = $1;
-			next;
-		}# }}}
-
-		
-		} #}}}
-
-		if ( $mode eq 'ARRAY' ) { # {{{
-
-			if ( $_ =~ /^]\h*/ ) { #{{{
-				$array = '';
-				$mode = 'NORMAL';
-				next;
-			} # }}}
-
-			if ( $array eq '' ) { # if we drop from normal mode, get option {{{
-				$_ =~ /([A-Z]+)=\[\h*/;
-				$array = $1;
-				next;
-			} #}}}
-
-			if ( $array eq 'PRESETS' ) { #{{{
-				$_ =~ /(.+)\h*/;
-				push( @presets, $1 );
-				next;
-			} #}}}
-
-			if ( $array eq 'ABILITIES' ) { #{{{
-				$_ =~ /(.+)\h*/;
-				push( @abilities, $1 );
-				next;
-			} #}}}
-
-			if ( $array eq 'ATTRIBUTES' ) { #{{{
-				$_ =~ /(.+):(.+)\h*/;
-				$attributes{$1} = $2;
-				next;
-			} #}}}
-
-			if ( $array eq 'SCARES' ) { #{{{
-				$_ =~ /(.+)\h*/;
-				push( @scares, $1 );
-				next;
-			} #}}}
-			
-			if ( $array eq 'SPAWN_DIMENSIONS' ) { #{{{
-				$_ =~ /(.+)\h*/;
-				push( @scares, $1 );
-				next;
-			} #}}}
-			
 
 
-			print "Unknown array definition: \"$array\", field: \"$_\"";
-			$errored = 1;
-			next;
-		} #}}}
 
-		$errored = 1;
-		die "Internal Compiler Error - bad mode: $array";
-	}
-	close(VARIANT_FILE);
-} #}}}
-
-sub resetValues { #{{{
-	$template = "./templates/generic.java.template";		
-	$extend = "net.ltxprogrammer.changed.entity.ChangedEntity";	
-
-	@presets = ();
-	%attributes = ();
-	@abilities = ();
-	@scares = ();		
-	@imports = ();		
-
-	$transfur_sound = "";	
-	$transfur_mode = "";	
-	$mining_speed = "";
-	$legs = "";		
-	$entity_shape = "";	
-	$show_hotbar = "";	
-	$items_in_main_hand = "";	
-	$items_in_offhand = "";	
-	$block_interaction = "";	
-	$block_breaking = "";	
-	$fly = "";
-	$jumps = "";		
-	$vision = "";		
-	$climb = "";		
-	$safe_fall = "";		
-	$z_offset = "";		
-	$gendered = "";		
-	$freezing_ticks = "";	
-	$breathing_mode = "";
-	$aqua_affinity = "";
-	$powder_snow_walkable = "";
-	$transfur_colors = "";
-#	$latex_faction = "";
-
-} #}}}
-
-#Getopt and stuff {{{
-sub getlopt { #{{{
-	foreach (@ARGV){
-		if ($_ =~ /^--help$/) {
-			printHelp();
-			exit(0);
-		}
-		if ($_ =~ /^--version$/) {
-			print $VERSION;
-			exit(0);
-		}
-		if ($_ =~ /^--force-regen$/) {
-			$force_regen = 1;
-			next;
-		}
-		if ($_ =~ /^--crash$/) {
-			$should_crash = 1;
-			next;
-		}
-		if ($_ =~ /^-[hcVf]+$/) {
-			getsopt($_);
-			next;
-		}
-
-		#if not opt, push into files
-		push(@files, $_);
-	}
-} #}}}
-
-sub getsopt { #{{{
-	if ($_ =~ /h/) {
+sub getsopt {
+	if ($_ eq -h ) {
 		printHelp();
 		exit(0);
 	}
-	if ($_ =~ /V/) {
-		print $VERSION;
-		exit(0);
-	}
-	if ($_ =~ /c/) {
-		$should_crash = 1;
-	}
-	if ($_ =~ /f/) {
-		$force_regen = 1;
-	}
-} #}}}
+}
 
-sub printHelp { #{{{
+sub printHelp { 
 	print "
 KJEntytek's303 Line Oriented Format Transfur Generator
 Version $VERSION
@@ -411,15 +267,6 @@ USAGE:
 If no file is given, the program recompiles all models inside ./variants
 
 OPTIONS:
- -h	--help		- Displays this message
- -c	--crash 	- Crashes on error
- -V	--version	- Prints version
- -f	--full-regen	- Force regenerates all entries. Ingores all FILEs. Useful to regenerate registriers, instead of appending to them.
+ -h	- Displays this message
 ";
-} #}}}
-
-#}}}
-# }}}
-
-# macros {{{
-#}}}
+} 
