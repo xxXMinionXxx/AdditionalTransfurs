@@ -1,23 +1,37 @@
 package net.kjentytek303.additional_transfurs.entity;
 
-import net.kjentytek303.additional_transfurs.init.utils.InitUtils;
+import net.kjentytek303.additional_transfurs.init.IEntityInit;
+import net.kjentytek303.additional_transfurs.init.utils.*;
 import net.ltxprogrammer.changed.entity.*;
+import net.ltxprogrammer.changed.entity.latex.LatexType;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.ltxprogrammer.changed.init.*;
 
 import net.ltxprogrammer.changed.util.Color3;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.registries.RegistryObject;
 
 
 import static net.kjentytek303.additional_transfurs.init.InitEntities.LATEX_FOX;
+
+import org.jetbrains.annotations.Nullable;
 
 
 public class LatexFox extends ChangedEntity /*PERL_IMPLEMENTS*/
@@ -35,7 +49,7 @@ public class LatexFox extends ChangedEntity /*PERL_IMPLEMENTS*/
 			   0x9E4F05,
 			   LatexFox.getEntityInitBuilder(),
 			   SpawnPlacements.Type.ON_GROUND, //TODO TEMPL: Make this extensible
-			   Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+			   Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, //TODO TEMPL: Make this extensible
 			   ChangedEntity::createLatexAttributes
 		);
 	}

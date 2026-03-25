@@ -1,7 +1,7 @@
 package net.kjentytek303.additional_transfurs.entity;
 
 import net.kjentytek303.additional_transfurs.init.IEntityInit;
-import net.kjentytek303.additional_transfurs.init.InitUtils;
+import net.kjentytek303.additional_transfurs.init.utils.*;
 import net.ltxprogrammer.changed.entity.*;
 import net.ltxprogrammer.changed.entity.latex.LatexType;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
@@ -23,6 +23,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.registries.RegistryObject;
@@ -49,7 +50,6 @@ public class PERL_ENTITY_NAME extends PERL_EXTENDS /*PERL_IMPLEMENTS*/
 			   PERL_ENTITY_NAME.getEntityInitBuilder(),
 			   SpawnPlacements.Type.ON_GROUND, //TODO TEMPL: Make this extensible
 			   Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, //TODO TEMPL: Make this extensible
-			   PERL_ENTITY_NAME::checkEntitySpawnRules,
 			   ChangedEntity::createLatexAttributes
 		);
 	}
