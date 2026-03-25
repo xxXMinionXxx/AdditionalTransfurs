@@ -1,0 +1,10 @@
+BUILDER=EntityType.Builder.of(PERL_ENTITY_NAME::new, MobCategory.MONSTER).clientTrackingRange(10).sized(0.7F, 1.93F)
+EXTEND=net.ltxprogrammer.changed.entity.beast.AbstractAquaticEntity
+BREATH=ANY
+
+ATTRIBUTES=[
+Attributes.MOVEMENT_SPEED:0.875
+Attributes.MAX_HEALTH:24.0
+ForgeMod.SWIM_SPEED.get():1.48
+]
+
