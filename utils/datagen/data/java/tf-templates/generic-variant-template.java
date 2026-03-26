@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 
@@ -48,8 +49,6 @@ public class PERL_ENTITY_NAME extends PERL_EXTENDS /*PERL_IMPLEMENTS*/
 			   PERL_COLOR_1ST,
 			   PERL_COLOR_2ND,
 			   PERL_ENTITY_NAME.getEntityInitBuilder(),
-			   SpawnPlacements.Type.ON_GROUND, //TODO TEMPL: Make this extensible
-			   Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, //TODO TEMPL: Make this extensible
 			   ChangedEntity::createLatexAttributes
 		);
 	}
@@ -73,6 +72,13 @@ public class PERL_ENTITY_NAME extends PERL_EXTENDS /*PERL_IMPLEMENTS*/
 			   .build();
 	}
 	/*PERL_ABSTRACT_DELETE_END*/
+	
+	public static void registerSpawns(SpawnPlacementRegisterEvent event) {
+		
+		if ( Heightmap.Types.PERL_SPAWN_HEIGHTMAP != null && SpawnPlacements.Type.PERL_SPAWN_PLACEMENT != null) { return; }
+		
+		event.register( PERL_CAPITALIZED_ENTITY_NAME.get(), SpawnPlacements.Type.PERL_SPAWN_PLACEMENT, Heightmap.Types.PERL_SPAWN_HEIGHTMAP, PERL_ENTITY_NAME::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.OR );
+	}
 	
 	public PERL_ENTITY_NAME(EntityType<? extends ChangedEntity> type, Level level) { super(type, level); }
 	

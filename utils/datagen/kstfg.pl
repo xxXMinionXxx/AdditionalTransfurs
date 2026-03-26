@@ -46,7 +46,8 @@ my $powder_snow_walkable="false";
 my $transfur_color="0xfdfdfd";
 my $egg_back="0xfdfdfd";
 my $egg_front="0xf0f0f0";
-my @spawn_dimensions="net.minecraft.world.level.Level.OVERWORLD";
+my $spawn_placement="ON_GROUND";
+my $spawn_heightmap="MOTION_BLOCKING_NO_LEAVES";
 my $latex_type="";
 my $riding_offset='';
 my $builder='';
@@ -96,6 +97,8 @@ $mode ='ARRAY';
 		if ( $_ =~ /^ABILITY_COLOR_1ST=(0x[0-9a-fA-F]{,6})\h*/ ) { $egg_back = $1; }
 		if ( $_ =~ /^ABILITY_COLOR_2ND=(0x[0-9a-fA-F]{,6})\h*/ ) { $egg_front = $1; }
 		if ( $_ =~ /^LATEX_TYPE=(NONE|WHITE_LATEX|DARK_LATEX)/ ) { $latex_type = $1; }
+		if ( $_ =~ /^SPAWN_PLACEMENT=(ON_GROUND|IN_WATER|NO_RESTRICTIONS|IN_LAVA)/ ) { $spawn_placement = $1; }
+		if ( $_ =~ /^SPAWN_HEIGHTMAP=(WORLD_SURFACE_WG|WORLD_SURFACE|OCEAN_FLOOR_WG|OCEAN_FLOOR|MOTION_BLOCKING|MOTION_BLOCKING_NO_LEAVES)/ ) { $spawn_heightmap = $1; }
 		if ( $_ =~ /^BUILDER=(.+)/ ) { $builder = $1; }
 
 		next;
@@ -311,6 +314,8 @@ foreach ( @mapped_file ) {
 	$_ =~ s/\/\*PERL_DEFAULT_TRANSFUR_SOUND\*\//$transfur_sound/;
 	$_ =~ s/PERL_TRANSFUR_MODE_OVERRIDE/$transfur_mode/;
 	$_ =~ s/\/\*PERL_LATEX_TYPE_OVERRIDE\*\//$latex_type/;
+	$_ =~ s/PERL_SPAWN_PLACEMENT/$spawn_placement/;
+	$_ =~ s/PERL_SPAWN_HEIGHTMAP/$spawn_heightmap/;
 	$_ =~ s/\/\*PERL_ATTRIBUTES\*\//@attributes/;
 	$_ =~ s/\/\*PERL_TRANSFUR_COLOR\*\//$transfur_color/;
 	$_ =~ s/\/\*PERL_TICKS_TO_FREEZE\*\//$freezing_ticks/;

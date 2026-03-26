@@ -29,8 +29,9 @@ public class AdditionalTransfurs
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
         
-        InitEntities.ENTITY_REGISTRY.register(modEventBus);
         InitItems.ITEM_REGISTRY.register(modEventBus);
+        InitEntities.ENTITY_REGISTRY.register(modEventBus);
+
         InitTransfurs.TF_REGISTRY.register(modEventBus);
     }
     
@@ -42,5 +43,9 @@ public class AdditionalTransfurs
     
     public static ResourceLocation modResource(String path) {
         return new ResourceLocation(MODID, path);
+    }
+    
+    public static String modResourceStr(String path) {
+        return MODID + ":" + path;
     }
 }

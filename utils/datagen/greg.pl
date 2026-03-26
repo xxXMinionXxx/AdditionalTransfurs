@@ -31,6 +31,7 @@ generateTransfurs(@variants);
 sub generateEntities {# {{{
 	my $IMPORT = 'import net.kjentytek303.additional_transfurs.entity.PERL_ENTITY_NAME;';
 	my $ROBJECT = '	public static final RegistryObject<EntityType<PERL_ENTITY_NAME>> PERL_CAPITALIZED_ENTITY_NAME = PERL_ENTITY_NAME.getEntityInitRObject();';
+	my $SPAWN="\t\tPERL_ENTITY_NAME.registerSpawns(event);";
 
 	open(my $RFILE, '<', 'data/java/registry/InitEntities.java') or die "Couldn't open entity registry file: $!. Aborted";
 	my @mapped_file = <$RFILE>;
@@ -38,6 +39,7 @@ sub generateEntities {# {{{
 
 	my @imports = (); 
 	my @robjects = ();
+	my @spawns = ();
 	foreach (@_) {
 		my $variant_name = $_;
 
@@ -45,28 +47,27 @@ sub generateEntities {# {{{
 		$variant_capitalized_name =~ s/([A-Z])/_$1/g;
 		$variant_capitalized_name =~ s/^_//;
 		$variant_capitalized_name =~ tr/[a-z]/[A-Z]/;
+
 		my $import = $IMPORT;
 		$import =~ s/PERL_ENTITY_NAME/$variant_name/;
+
 		my $robject = $ROBJECT;
 
 		$robject =~ s/PERL_ENTITY_NAME/$variant_name/g;
 		$robject =~ s/PERL_CAPITALIZED_ENTITY_NAME/$variant_capitalized_name/;
 
-		push( @imports, $import );
-		push( @robjects, $robject );
-	}
+		my $spawn = $SPAWN;
+		$spawn =~ s/PERL_ENTITY_NAME/$variant_name/;
 
-	foreach (@robjects) {
-		$_ = $_ . "\n";
-	}
-
-	foreach (@imports) {
-		$_ = $_ . "\n";
+		push( @imports, ( $import, "\n" ) );
+		push( @robjects,( $robject,"\n" ) );
+		push( @spawns,  ( $spawn, "\n" ) );
 	}
 
 	foreach (@mapped_file) {
 		$_ =~ s/\/\*PERL_ENTITY_IMPORTS\*\//@imports/;
 		$_ =~ s/\/\*PERL_ENTITIES\*\//@robjects/;
+		$_ =~ s/\/\*PERL_REGISTER_SPAWNS\*\//@spawns/;
 	}
 
 	open( WFILE, '>', $output_dir . '/InitEntities.java' );

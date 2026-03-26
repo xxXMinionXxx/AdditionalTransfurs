@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 
@@ -48,8 +49,6 @@ public class LatexFox extends ChangedEntity /*PERL_IMPLEMENTS*/
 			   0xE37107,
 			   0x9E4F05,
 			   LatexFox.getEntityInitBuilder(),
-			   SpawnPlacements.Type.ON_GROUND, //TODO TEMPL: Make this extensible
-			   Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, //TODO TEMPL: Make this extensible
 			   ChangedEntity::createLatexAttributes
 		);
 	}
@@ -77,6 +76,13 @@ public class LatexFox extends ChangedEntity /*PERL_IMPLEMENTS*/
 	}
 	/*PERL_ABSTRACT_DELETE_END*/
 	
+	public static void registerSpawns(SpawnPlacementRegisterEvent event) {
+		
+		if ( Heightmap.Types.MOTION_BLOCKING_NO_LEAVES != null && SpawnPlacements.Type.ON_GROUND != null) { return; }
+		
+		event.register( LATEX_FOX.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, LatexFox::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.OR );
+	}
+	
 	public LatexFox(EntityType<? extends ChangedEntity> type, Level level) { super(type, level); }
 	
 	@Override
@@ -101,7 +107,7 @@ public class LatexFox extends ChangedEntity /*PERL_IMPLEMENTS*/
 	public Color3 getTransfurColor(TransfurCause cause) { return Color3.fromInt(0xE37107); }
 	
 	@Override
-	public int getTicksRequiredToFreeze() { return 540; }
+	public int getTicksRequiredToFreeze() { return 400; }
 
 	/*PERL_FLYING_SPEED*/
 

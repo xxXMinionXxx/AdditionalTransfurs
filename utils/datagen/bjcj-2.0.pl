@@ -150,8 +150,8 @@ my $centaur_additional_animators = '
 
 my $biped_legs = 'LeftLeg, LeftLowerLeg, LeftFoot, LeftPad, RightLeg, RightLowerLeg, RightFoot, RightPad';
 
-my $dragon_wings = ', leftWingRoot, leftSecondaries, leftTertiaries,
-                        rightWingRoot, rightSecondaries, rightTertiaries';
+my $dragon_wings = ', LeftWingRoot, LeftWingSecondaries, LeftWingTertiaries,
+                        RightWingRoot, RightWingSecondaries, RightWingTertiaries';
 my $bird_wings = ', LeftFlight, LeftSubFlight, RightFlight, RightSubFlight';
 
 my $input_file_name = '';

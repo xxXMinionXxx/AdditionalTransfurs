@@ -108,9 +108,9 @@ ChangedAbilities.TOGGLE_NIGHT_VISION
 ]
 
 ;Specifies what class should be extended. Accepts classpaths. Defaults to ChangedEntity.
-;EXTEND=
+EXTEND=ChangedEntity
 
-;Force a function call to clear preset arrays.
+;Force a function call to clear preset arrays. Unused for now
 ;This might be useful if you want to use a cat preset, without making creepers run away.
 ;CLEAR_ABILITIES()
 ;CLEAR_SCARES()
@@ -122,10 +122,8 @@ net.minecraft.world.entity.monster.Creeper
 ]
 
 
-;Dimensions where the entity can spawn. Accepts classpaths.
-SPAWN_DIMENSIONS=[
-net.minecraft.world.level.Level.OVERWORLD
-]
+;Spawn placement type. Valid values: ON_GROUND, IN_WATER, NO_RESTRICTIONS, IN_LAVA
+SPAWN_PLACEMENT=ON_GROUND
 
 ;Tag template to use when checking spawn biomes.
 ;BIOME_PRESET=

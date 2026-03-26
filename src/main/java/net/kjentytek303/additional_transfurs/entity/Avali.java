@@ -11,12 +11,15 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 
 import static net.kjentytek303.additional_transfurs.init.InitEntities.AVALI;
+import static net.kjentytek303.additional_transfurs.init.InitEntities.LATEX_FOX;
 
 public class Avali extends ChangedEntity {
 	
@@ -28,15 +31,20 @@ public class Avali extends ChangedEntity {
 	}
 	
 	public static RegistryObject<EntityType<Avali>> getEntityInitRObject() {
-		return InitUtils.getEntityInitRObject(
+		return InitUtils.getEntityInitRObject (
 			   "avali",
 			   0x00FF00,
 			   0x9E4F05,
 			   Avali.getEntityInitBuilder(),
-			   SpawnPlacements.Type.ON_GROUND, //TODO TEMPL: Make this extensible
-			   Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
 			   ChangedEntity::createLatexAttributes
 		);
+	}
+	
+	public static void registerSpawns(SpawnPlacementRegisterEvent event) {
+		
+		if ( Heightmap.Types.MOTION_BLOCKING_NO_LEAVES != null && SpawnPlacements.Type.ON_GROUND != null) { return; }
+		
+		event.register( LATEX_FOX.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, LatexFox::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.OR );
 	}
 	
 	public static TransfurVariant<Avali> getTFInitBuilder()

@@ -18,8 +18,14 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.HumanoidArm;
 
 //Needed for taurs
+import net.ltxprogrammer.changed.client.tfanimations.HelperModel;
+import net.ltxprogrammer.changed.client.tfanimations.TransfurHelper;
+import net.ltxprogrammer.changed.client.animations.Limb;
+import net.ltxprogrammer.changed.client.renderer.animate.tail.WolfTailInitAnimator;
 
 //Needed for legless
+import net.ltxprogrammer.changed.client.renderer.model.LeglessModel;
+import net.ltxprogrammer.changed.entity.beast.LatexSnake;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -111,14 +117,15 @@ public class LatexPlantDragonModel extends AdvancedHumanoidModel<LatexPlantDrago
 		this.LeftFoot = this.LeftLowerLeg.getChild("LeftFoot");
 		this.LeftPad = this.LeftFoot.getChild("LeftPad");
 		animator = HumanoidAnimator.of(this).hipOffset(-1.5f)
-			   .addPreset(AnimatorPresets.dragonLike(
+			   .addPreset(AnimatorPresets.wingedDragonLike(
 					 Head,
 					 
 					 Torso, LeftArm, RightArm,
 					 /*PERL_ABDOMEN_STUFF*/
 					 Tail, List.of(TailPrimary, TailSecondary, TailTertiary, TailQuaternary), 
 					 LeftLeg, LeftLowerLeg, LeftFoot, LeftPad, RightLeg, RightLowerLeg, RightFoot, RightPad
-					 /*PERL_WINGED_STUFF*/
+					 , LeftWingRoot, LeftWingSecondaries, LeftWingTertiaries,
+                        RightWingRoot, RightWingSecondaries, RightWingTertiaries
 					 ))/*PERL_ADDITIONAL_ANIMATORS*/;
 
 	}
