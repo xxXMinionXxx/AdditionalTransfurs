@@ -10,8 +10,8 @@
 ;Valid values are the same as file titles inside ./utils/transfur-generator/presets.
 ;Warning: If a preset sets for example: 'BREATH=WEAK', then writing 'BREATH=NORMAL' will override it to vanilla.
 PRESETS=[
-CAT
-LATEX
+cat
+latex
 ]
 
 

@@ -45,12 +45,21 @@ foreach ( @IFILE ) {
 				push( @mapped_file, $_ );
 				next;
 			}
-			else {
-				$errored = 1;
-				print STDERR "Error: Template file $1 not found, line $i";
-			}
+
+			$errored = 1;
+			print STDERR "Error: Template file $1 not found, line $i\n";
 			next;
 		} #}}}
+		if ( $_ =~ /^RENDERER_TEMPLATE=(.+)/ ) {
+			if( -f "data/java/renderers/$1.java" ) {
+				push ( @mapped_file, $_ );
+				next;
+			}
+
+			$errored = 1;
+			print STDERR "Error: Renderer template $1 not found, line $i\n";
+			next;
+		}
 
 		if ( $_ =~ /^EXTEND=([a-zA-Z0-9])+\h*/ ||
 		$_ =~ /^TRANSFUR_SOUND=(.+)\h*/ ||
@@ -78,11 +87,11 @@ foreach ( @IFILE ) {
 		$_ =~ /^SPAWN_WEIGHT=(\d)*/ ||
 		$_ =~ /^RENDERER_TYPE=/ ||
 		$_ =~ /^MULTIHANDED_RENDERER=(true|false)/ ||
-		$_ =~ /^ARMOR_TYPE=/ ||
+		$_ =~ /^ARMOR_MODEL=/ ||
 		$_ =~ /^EYES_PRESENT=(true|false)\h*$/ ||
-		$_ =~ /^IRIS_1ST_COLOR=0x([0-9a-fA-F]{,6})\h*/ ||
-		$_ =~ /^IRIS_2ND_COLOR=0x([0-9a-fA-F]{,6})\h*/ ||
-		$_ =~ /^SCLERA_COLOR=0x([0-9a-fA-F]{,6})\h*/ ||
+		$_ =~ /^IRIS_1ST_COLOR=0x([0-9a-fA-F]{,6})\h*(dl|)/ ||
+		$_ =~ /^IRIS_2ND_COLOR=0x([0-9a-fA-F]{,6})\h*(dl|)/ ||
+		$_ =~ /^SCLERA_COLOR=0x([0-9a-fA-F]{,6})\h*(dl|)/ ||
 		$_ =~ /^GAS_MASK_LAYER=(.+)/ ||
 		$_ =~ /^EMISSIVE_LAYER=(true|false)/ ||
 		$_ =~ /^TRANSLUCENT_LAYER=(true|false)/ ||
