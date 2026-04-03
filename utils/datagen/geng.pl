@@ -49,9 +49,19 @@ foreach (@files) {
 	if ($is_gendered eq "true") {
 		my $tmp = $_;
 		$tmp =~ s/\.klof$//;
-		
-		system("cp", $_, $tmp . "Male.klof");
-		system("cp", $_, $tmp . "Female.klof");
-		system("rm $_");
+
+		if ( $^O eq "MSWin32" ) {
+			print STDERR "Warning: GenG is executing untested powershell commands/\n";
+			$_ =~ tr/\//\\/;
+			$tmp =~ tr/\//\\/;
+			system("copy", $_, $tmp . "Male.klof");
+			system("copy", $_, $tmp . "Female.klof");
+			system("del $_");
+		}
+		else { #linux and mac
+			system("cp", $_, $tmp . "Male.klof");
+			system("cp", $_, $tmp . "Female.klof");
+			system("rm $_");
+		}
 	}
 }

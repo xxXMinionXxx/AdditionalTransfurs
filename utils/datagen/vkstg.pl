@@ -180,8 +180,20 @@ print @mapped_file;
 sub resolveDependencies() {
 	#Inject the file at the beginning.
 	my @tmp;
- 	( @tmp = `./vkstg.pl < $_[0]` );
-	system( "./vkstg.pl < $_[0] > /dev/null" ) && die "Broken template file $_[0]\n";
+	
+	if ( $^O eq "MSWin32" ) {
+
+		print STDERR "Warning: VKSTG is running untested PS commands.\n";
+
+ 		( @tmp = `.\\vkstg.pl < $_[0]` );
+		system( ".\\vkstg.pl < $_[0] > %homedrive%%homepath%\\trash.tmp" ) && die "Broken template file $_[0]\n";
+		system( "del %homedrive%%homepath%\\trash.tmp" );
+
+	}
+	else { #likely linux and mac	
+ 		( @tmp = `./vkstg.pl < $_[0]` );
+		system( "./vkstg.pl < $_[0] > /dev/null" ) && die "Broken template file $_[0]\n";
+	}
 	splice (@mapped_file, 0, 0, @tmp);
 	@IFILE = @mapped_file;
 	@mapped_file = ();
