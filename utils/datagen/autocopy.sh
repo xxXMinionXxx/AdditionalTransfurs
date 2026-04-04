@@ -20,10 +20,14 @@ variants=$( ls -1 tmp/klofs/variants )
 for variant in ${variants[@]}; do
 	variant_name=$( echo $variant | sed -e 's/\.klof$//')
 	variant="tmp/klofs/variants/${variant}"
-
+	
 	./vkstg.pl < $variant > tmp/vkstg.tmp
-	if [[ $? != 0 && !$errored ]]; then
+	if [[ $? != 0 ]]; then
 		errored=1;
+		echo "In file $variant" >&2 
+	fi
+
+	if [[ $errored == 1 ]]; then
 		continue;
        	fi
 	
@@ -39,8 +43,14 @@ done
 #./gtmpg.pl -t tmp/<shit> -e cacs
 ./greg.pl < tmp/variants.greg
 
-cp -R ./generated/java/registries/* ../../src/main/java/net/kjentytek303/additional_transfurs/init/
-cp -R ./generated/java/transfurs/* ../../src/main/java/net/kjentytek303/additional_transfurs/entity/generated/
-cp -R ./generated/java/renderers/* ../../src/main/java/net/kjentytek303/additional_transfurs/client/renderer/generated/
-cp -R ./generated/data/* ../../src/main/resources/data/
-cp -R ./generated/assets/*
+if [[ $errored == 1 ]]; then
+	echo "autocopy.sh: Error: Assembly failed." >&2
+else
+	cp -R ./generated/java/registries/* ../../src/main/java/net/kjentytek303/additional_transfurs/init/
+	cp -R ./generated/java/transfurs/* ../../src/main/java/net/kjentytek303/additional_transfurs/entity/generated/
+	cp -R ./generated/java/renderers/* ../../src/main/java/net/kjentytek303/additional_transfurs/client/renderer/generated/
+	cp -R ./generated/data/* ../../src/main/resources/data/
+	cp -R ./generated/assets/*
+fi
+
+exit $errored

@@ -1,0 +1,102 @@
+.TH autocopy.sh "1"
+
+.SH NAME
+.B autocopy.sh 
+- automated transfur assembly and copy manager
+
+.SH SYNOPSIS
+.B ./autocopy.sh
+
+.SH DESCRIPTION
+autocopy.sh is an automation script, allowing for easy, one-command way of executing a chain of repetitive commands, required to generate transfur variants and all related files.
+
+.SH HOW AUTOCOPY WORKS
+.PP
+autocopy.sh requires a strict directory structure due to some names being hardcoded. Consult
+.B directory-structure(5)
+for more info. In short, autocopy.sh creates and manages directories
+.I tmp/ generated/ generated/data/* generated/assets/* generated/java/*
+as well as is responsible for creation of the whole directory tree inside
+.I generated/
+directory.
+
+.PP
+At first, autocopy wipes
+.I tmp/
+and 
+.I generated/
+directories with
+.B rm(1).
+This is to ensure that no files from previous runs remain and potentially corrupting newly generated files. All the contents of
+.I data/
+directory are then copied to
+.I tmp/.
+
+.PP
+Next, autocopy.sh invokes
+.B geng.pl(1)
+to process gendered variants before the
+.B vkstg.pl(1) 
+validator and cache generation. This is done because other tools are incapable of handling gendered variants, and often rely on the
+.I tmp/cache
+file, to know about the location of their respective files.
+
+.PP
+Next, autocopy.sh invokes 
+.B find(1)
+to generate cache, as well as to discover directory structures of
+.I tmp/data/
+and 
+.I tmp/assets
+directories. This is important, because many programs output into these directories, and they must be created before most programs are runned. This is also the time when generated/java/* directories are created.
+
+.PP
+Next, autocopy begins variant generation. It starts by declaring an error control variable, but in place for safety, as most tools generate empty file on error. The first tool that is ran is
+.B vkstg.pl(1)
+transfur validator, which output is stored to
+.I tmp/vkstg.tmp.
+If it returns an error, autocopy.sh aborts variant file generation and file copying, but lets
+.B vkstg(1)
+print error messages for all variants, and prints the name of the file which caused an error.
+
+.PP
+Next, if the validation succeeded, autocopy calls 2 programs:
+.B kstfg.pl(1)
+responsible for generating transfur .java classes and
+.B rgktg.pl(1)
+responsible for generating renderer .java classes. The last thing it does is append the variant name to
+.B greg(1)'s
+variant list, that is
+.I tmp/variants.greg.
+
+.PP
+Once all transfurs have been processed,
+.gtmpg.pl(1)
+is called. It's job is to generate all tag-like related entries from the
+.I tmp/data/
+directory, converting them into .json format accepted by minecraft datapacks.
+
+.PP
+Next, the 
+.B greg(1)
+registry generator is called. It's job is to generate all the registry files required for the mod to work. It has to be called after the transfur generator, as during the execution of
+.B kstfg(1)
+autocopy.sh appends data to
+.I tmp/variants.greg
+file.
+
+.PP
+Lastly, if everything succeeded, generated files are copied over to their respective locations in the mod. That is
+.I ./src/main/java/<package_name>/init/
+for registries.
+.I ./src/main/java/<package_name>/entity/generated/
+for transfur variants.
+.I ./src/main/java/<package_name>/client/renderer/generated/
+for renderers.
+.I ./src/main/resources/data/
+for data files.
+.I ./src/main/resources/assets/
+for asset files.
+
+.PP
+Then autocopy exists returning $errored variable to the OS, optionally printing an error message.

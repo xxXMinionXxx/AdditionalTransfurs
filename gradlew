@@ -73,12 +73,18 @@ for i in $@; do
 			cd utils/datagen
 			./autocopy.sh
 			cd ../..
-			exit 0
+			exit 0;
 			;;
 		build)
 			cd utils/datagen
 			./autocopy.sh
+			errored_assembly=$?
 			cd ../..
+
+			if [[ $errored_assembly ]]; then
+				exit 1;
+			fi
+
 			;;
 	esac
 done
