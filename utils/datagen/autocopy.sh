@@ -41,10 +41,11 @@ done
 ./gtmpg.pl
 ./gtmpg.pl -e cacsh -t tmp/cacs-humanoid.json.template
 
-
 ./greg.pl < tmp/variants.greg
 
-if [[ $errored == 1 ]]; then
+./jgen.pl < data/assets/additional_transfurs/lang/en_us.lang | sed -e 's/ / "/' -e 's/:/":/' -e 's/"$/",/' -e 's/"json.terminator": "",/"json.terminator": ""/' -e '1i\{' -e '$a\}' > ./generated/assets/additional_transfurs/lang/en_us.json
+
+if [[ $errored != 0 ]]; then
 	echo "autocopy.sh: Error: Assembly failed." >&2
 else
 	cp -R ./generated/java/registries/* ../../src/main/java/net/kjentytek303/additional_transfurs/init/

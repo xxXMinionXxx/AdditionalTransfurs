@@ -288,12 +288,6 @@ close ($TEMPLATE);
 
 my $implemented = 0;
 
-open ( EGGFILE, ">", "generated/assets/additional_transfurs/models/item/" . $name_lowercase . "_spawn_egg.json" );
-print EGGFILE '{
-	"parent": "minecraft:item/template_spawn_egg"
-}';
-close (EGGFILE);
-
 foreach ( @mapped_file ) {
 	macro_loop_begin:
 	$_ =~ s/PERL_ENTITY_NAME/$name/g;

@@ -1,5 +1,11 @@
 {
-	"entity.additional_transfurs.latex_fox": "Latex Fox",
+ "entity.additional_transfurs.avali": "Avali",
+ "entity.additional_transfurs.latex_fox": "Latex Fox",
+ "entity.additional_transfurs.latex_plant_dragon": "Latex Plant Dragon",
 
-	"item.additional_transfurs.latex_fox_spawn_egg": "Latex Fox Spawn Egg"
+ "item.additional_transfurs.avali_spawn_egg": "Avali Spawn Egg",
+ "item.additional_transfurs.latex_fox_spawn_egg": "Latex Fox Spawn Egg",
+ "item.additional_transfurs.latex_plant_dragon_spawn_egg": "Latex Plant Dragon Spawn Egg",
+
+ "json.terminator": ""
 }
