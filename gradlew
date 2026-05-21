@@ -65,27 +65,36 @@
 #Changes by KJEntytek303:
 #Script assumes you use bash.
 
-should_assemble=0
+should_assemble=1
 
-for i in $@; do
-	case $i in
-		assemble) 
-			cd utils/datagen
-			./autocopy.sh
-			cd ../..
-			exit 0;
+assemble() {
+	cd utils/datagen
+	errored_assembly= ./autocopy.sh
+	cd ../..
+	return $errored_assembly
+}
+
+i=1
+for arg in $@; do
+	case $arg in
+		assemble)
+			exit assemble
 			;;
 		build)
-			cd utils/datagen
-			errored_assembly= ./autocopy.sh
-			cd ../..
-
-			if [[ $errored_assembly ]]; then
-				exit 1;
+			if [[ $should_assemble ]]; then
+				errored_assembl=assemble
+				if [[ $errored_assembl ]]; then
+					exit 1;
+				fi
 			fi
 
 			;;
+		"build-no-assemble")
+			set -- "${@:1:(($i-1))}" "build" "${@:(($i+1))}"
+			should_assemble=0;
+			;;
 	esac
+	((i+=1))
 done
 
 #continue normally.
