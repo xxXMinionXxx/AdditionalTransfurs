@@ -82,7 +82,7 @@ public class RooftopCat extends ChangedEntity /*PERL_IMPLEMENTS*/
 		
 		if ( Heightmap.Types.MOTION_BLOCKING != null && SpawnPlacements.Type.ON_GROUND != null) { return; }
 		
-		event.register( ROOFTOP_CAT.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING, RooftopCat::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.OR );
+		event.register( ROOFTOP_CAT.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING, RooftopCat::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.AND );
 	}
 	
 	public RooftopCat(EntityType<? extends ChangedEntity> type, Level level) { super(type, level); }

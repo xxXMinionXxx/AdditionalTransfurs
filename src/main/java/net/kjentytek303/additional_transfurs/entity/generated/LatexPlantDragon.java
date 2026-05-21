@@ -85,7 +85,7 @@ public class LatexPlantDragon extends ChangedEntity /*PERL_IMPLEMENTS*/
 		
 		if ( Heightmap.Types.MOTION_BLOCKING_NO_LEAVES != null && SpawnPlacements.Type.ON_GROUND != null) { return; }
 		
-		event.register( LATEX_PLANT_DRAGON.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, LatexPlantDragon::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.OR );
+		event.register( LATEX_PLANT_DRAGON.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, LatexPlantDragon::checkEntitySpawnRules, SpawnPlacementRegisterEvent.Operation.AND );
 	}
 	
 	public LatexPlantDragon(EntityType<? extends ChangedEntity> type, Level level) { super(type, level); }
