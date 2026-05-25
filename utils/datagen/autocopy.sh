@@ -48,7 +48,8 @@ done
 
 ./greg.pl < tmp/variants.greg
 
-./jgen.pl < data/assets/additional_transfurs/lang/en_us.lang | sed -e 's/ / "/' -e 's/:/":/' -e 's/"$/",/' -e 's/"json.terminator": "",/"json.terminator": ""/' -e '1i\{' -e '$a\}' > ./generated/assets/additional_transfurs/lang/en_us.json
+./jgen.pl < data/assets/additional_transfurs/lang/en_us.lang | \
+	sed -E -e 's/^ / "/' -e 's/:/":/' -e 's/: /: "/' -e 's/([^ ])$/&",/' -e 's/"json.terminator": "",/"json.terminator": ""/' -e '1i\{' -e '$a\}' > ./generated/assets/additional_transfurs/lang/en_us.json
 
 if [[ $errored != 0 ]]; then
 	echo "autocopy.sh: Error: Assembly failed." >&2
