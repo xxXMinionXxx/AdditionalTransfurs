@@ -13,8 +13,8 @@ find data/assets -type d | sed -e "s/^data/generated/" | xargs mkdir
 mkdir -p generated/java/renderers generated/java/registry generated/java/transfurs/
 
 #Copy handcrafted files into generated/
-for i in $(cat < tmp/cache | grep -E "(\.json)(\.png)$") ; do
-  echo "$i" | tee >( echo "$(</dev/stdin)") | sed '$s/tmp/generated/' | xargs cp
+for i in $( grep -E "((\.json)|(\.png))$" < tmp/cache ) ; do
+  echo "$i" | tee >( echo "$(</dev/stdin)") | sed '$s/^tmp/generated/' | sed 's/\n/ /' | xargs cp
 done
 
 #Run Validator and cache results.
