@@ -2,6 +2,7 @@ BUILDER=EntityType.Builder.of(PERL_ENTITY_NAME::new, MobCategory.MONSTER).client
 BREATH=ANY
 RIDING_OFFSET=0.02
 ENTITY_SHAPE=MER
+TEMPLATE=generic-aquatic
 EXTEND=net.ltxprogrammer.changed.entity.beast.AbstractAquaticEntity
 
 ATTRIBUTES=[

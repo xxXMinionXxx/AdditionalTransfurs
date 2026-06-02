@@ -1,5 +1,6 @@
 BUILDER=EntityType.Builder.of(PERL_ENTITY_NAME::new, MobCategory.MONSTER).clientTrackingRange(10).sized(0.7F, 1.93F)
 EXTEND=net.ltxprogrammer.changed.entity.beast.AbstractAquaticEntity
+TEMPLATE=generic-aquatic
 BREATH=ANY
 
 ATTRIBUTES=[
