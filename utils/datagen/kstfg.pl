@@ -97,7 +97,7 @@ $mode ='ARRAY';
 			die "KSTfG: Assertion Failed: Accessory file innaccessible.";
 		}
 
-		if ( $_ =~ /^EXTEND=([a-zA-Z0-9])+\h*/ ) { $extend = $1; }
+		if ( $_ =~ /^EXTEND=([.a-zA-Z0-9]+)\h*$/ ) { $extend = $1; }
 		if ( $_ =~ /^TRANSFUR_SOUND=(.+)\h*/ ) { $transfur_sound = $1; }
 		if ( $_ =~ /^TRANSFUR_MODE=(ABSORPTION|REPLICATION|NONE)\h*/ ) { $transfur_mode = $1; }
 		if ( $_ =~ /^MINING=(WEAK|NORMAL|STRONG)\h*/ ) { $mining_speed=$1; }
