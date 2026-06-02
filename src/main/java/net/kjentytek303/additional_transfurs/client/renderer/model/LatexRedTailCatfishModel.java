@@ -169,6 +169,8 @@ public class LatexRedTailCatfishModel extends AdvancedHumanoidModel<LatexRedTail
 
 		PartDefinition Base1_r1 = TailPrimary.addOrReplaceChild("Base1_r1", CubeListBuilder.create().texOffs(57, 27).addBox(-2.0F, -3.7F, -0.95F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.8467F, 3.3228F, 1.3526F, 0.0F, 0.0F));
 
+		PartDefinition cube_r1 = TailPrimary.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(77, 46).addBox(-4.0F, 0.0F, -2.0F, 4.0F, 3.0F, 2.0F, new CubeDeformation(-0.0001F)), PartPose.offsetAndRotation(2.0F, -1.9318F, 0.3707F, 0.3491F, 0.0F, 0.0F));
+
 		PartDefinition TailSecondary = TailPrimary.addOrReplaceChild("TailSecondary", CubeListBuilder.create(), PartPose.offset(0.0F, 0.7681F, 3.48F));
 
 		PartDefinition Base2_r1 = TailSecondary.addOrReplaceChild("Base2_r1", CubeListBuilder.create().texOffs(57, 36).addBox(-2.0F, -2.7F, -0.95F, 4.0F, 5.0F, 4.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(0.0F, 1.6693F, 2.1261F, 1.309F, 0.0F, 0.0F));
