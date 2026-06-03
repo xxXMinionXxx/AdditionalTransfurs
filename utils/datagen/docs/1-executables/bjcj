@@ -6,9 +6,35 @@
 
 .SH SYNOPSIS
 .B ./bjcj.pl
-.RB [OPTIONS]
+-n 
+.I FILE
+-p
+.I ANIMATION_PRESET
 
 .SH DESCRIPTION
-bjcj.pl is a model converter. It expects a java file as an input, and a 
+bjcj.pl is a model converter. It expects a path to a java model file after -n option animation preset after the -p option, and prints the converted class to STDOUT.
 
-
+Current animation presets:
+.RS 2
+wolf
+.br
+cat
+.br
+deer
+.br
+orca
+.br
+shark
+.br
+dragon
+.br
+taur
+.br
+snake
+.br
+wingedDragon
+.br
+leglessShark
+.br
+leglessMantaRay
+.br
