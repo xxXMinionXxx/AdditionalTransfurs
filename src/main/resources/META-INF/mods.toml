@@ -45,7 +45,14 @@ description='''${mod_description}'''
 [[dependencies.${mod_id}]]
     modId="changed"
     mandatory=true
-    versionRange="[0.15.4,0.16)"
+    versionRange="${changed_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="changed_addon"
+    mandatory=false
+    versionRange="${caddon_version_range}"
     ordering="NONE"
     side="BOTH"
 
