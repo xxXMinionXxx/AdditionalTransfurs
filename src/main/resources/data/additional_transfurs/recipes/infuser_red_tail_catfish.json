@@ -4,11 +4,11 @@
 		{"item": "changed:latex_base"},
 		{"item": "minecraft:sand"},
 		{"item": "minecraft:sand"},
-		{"item": "minecraft:clay"},
+		{"item": "minecraft:clay_ball"},
 		{"item": "minecraft:seagrass"},
 		{"item": "minecraft:seagrass"},
 		{"item": "minecraft:seagrass"},
-		{"item": "minecraft:salmon"},
+		{"item": "minecraft:seagrass"},
 		{"item": "minecraft:salmon"}
 
 	],
