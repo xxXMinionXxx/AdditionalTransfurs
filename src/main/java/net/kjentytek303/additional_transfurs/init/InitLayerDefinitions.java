@@ -7,7 +7,8 @@ package net.kjentytek303.additional_transfurs.init;
  import net.kjentytek303.additional_transfurs.client.renderer.model.LatexRedTailCatfishModel;
  import net.kjentytek303.additional_transfurs.client.renderer.model.RooftopCatModel;
 
-import net.minecraftforge.api.distmarker.Dist;
+ import net.kjentytek303.additional_transfurs.client.renderer.model.armor.PenguinChestFeetArmorModel;
+ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,5 +26,7 @@ public class InitLayerDefinitions {
  		event.registerLayerDefinition(LatexRedTailCatfishModel.LAYER_LOCATION, LatexRedTailCatfishModel::createBodyLayer);
  		event.registerLayerDefinition(RooftopCatModel.LAYER_LOCATION, RooftopCatModel::createBodyLayer);
 
+		PenguinChestFeetArmorModel.MODEL_SET.registerDefinitions(event::registerLayerDefinition);
+		//event.registerLayerDefinition(PenguinChestFeetArmorModel.LAYER_LOCATION, PenguinChestFeetArmorModel::createArmorLayer);
 	}
 }
