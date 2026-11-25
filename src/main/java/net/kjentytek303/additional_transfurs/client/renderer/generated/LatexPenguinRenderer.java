@@ -2,6 +2,7 @@ package net.kjentytek303.additional_transfurs.client.renderer.generated;
 
 import net.kjentytek303.additional_transfurs.AdditionalTransfurs;
 import net.kjentytek303.additional_transfurs.client.renderer.model.LatexPenguinModel;
+import net.kjentytek303.additional_transfurs.client.renderer.model.armor.PenguinChestFeetArmorModel;
 import net.kjentytek303.additional_transfurs.entity.generated.LatexPenguin;
 import net.ltxprogrammer.changed.client.renderer.AdvancedHumanoidRenderer;
 import net.ltxprogrammer.changed.client.renderer.layers.*;
@@ -14,7 +15,7 @@ public class LatexPenguinRenderer extends AdvancedHumanoidRenderer<LatexPenguin,
 	public static final ResourceLocation DEFAULT_SKIN_LOCATION = AdditionalTransfurs.modResource("textures/entity/latex_penguin.png");
 	
 	public LatexPenguinRenderer(EntityRendererProvider.Context context) {
-		super(context, new LatexPenguinModel(context.bakeLayer(LatexPenguinModel.LAYER_LOCATION)), ArmorHumanModel.MODEL_SET, 0.5f);
+		super(context, new LatexPenguinModel(context.bakeLayer(LatexPenguinModel.LAYER_LOCATION)), PenguinChestFeetArmorModel.MODEL_SET, 0.5f);
 		this.addLayer(new LatexParticlesLayer<>(this, getModel()));
 		this.addLayer(TransfurCapeLayer.normalCape(this, context.getModelSet()));
 		this.addLayer(CustomEyesLayer.builder(this, context.getModelSet())
